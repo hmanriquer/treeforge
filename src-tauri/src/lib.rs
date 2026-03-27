@@ -236,6 +236,7 @@ fn git_cherry_pick(repo_path: &str, commit: &str) -> Result<String, String> {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_dialog::init())
         .invoke_handler(tauri::generate_handler![
             get_branches,
             get_commit_log,

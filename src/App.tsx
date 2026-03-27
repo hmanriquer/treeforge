@@ -1,9 +1,35 @@
-import { Button } from "./components/ui/button";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useGitStore } from "./stores/git.store";
+import { WelcomePage } from "./pages/welcome";
+import { DashboardPage } from "./pages/dashboard";
+
+function RootGuard() {
+  const savedRepos = useGitStore((s) => s.savedRepos);
+  if (savedRepos.length === 0) {
+    return <Navigate to="/welcome" replace />;
+  }
+  return <Navigate to="/dashboard" replace />;
+}
+
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const savedRepos = useGitStore((s) => s.savedRepos);
+  if (savedRepos.length === 0) return <Navigate to="/welcome" replace />;
+  return <>{children}</>;
+}
 
 export default function App() {
   return (
-    <div className="flex h-screen items-center justify-center">
-      <Button>Hello from Rust + Tailwind!</Button>
-    </div>
+    <Routes>
+      <Route path="/" element={<RootGuard />} />
+      <Route path="/welcome" element={<WelcomePage />} />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 }
