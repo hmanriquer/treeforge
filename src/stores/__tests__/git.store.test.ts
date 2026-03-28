@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { useGitStore } from './git.store';
+import { useGitStore } from '../git.store';
 import { invoke } from '@tauri-apps/api/core';
 
 // Mock Tauri invoke
