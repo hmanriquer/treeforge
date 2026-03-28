@@ -1,10 +1,21 @@
-import * as React from "react"
-import { render, screen } from "@testing-library/react"
-import { describe, it, expect } from "vitest"
-import { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption } from "./table"
+import * as React from 'react';
 
-describe("Table component", () => {
-  it("renders full table structure correctly", () => {
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from './table';
+
+describe('Table component', () => {
+  it('renders full table structure correctly', () => {
     render(
       <Table>
         <TableCaption>A list of your recent invoices.</TableCaption>
@@ -30,11 +41,13 @@ describe("Table component", () => {
             <TableCell className="text-right">$250.00</TableCell>
           </TableRow>
         </TableFooter>
-      </Table>
-    )
+      </Table>,
+    );
 
-    expect(screen.getByText("A list of your recent invoices.")).toBeInTheDocument()
-    expect(screen.getByText("INV001")).toBeInTheDocument()
-    expect(screen.getByText("Total")).toBeInTheDocument()
-  })
-})
+    expect(
+      screen.getByText('A list of your recent invoices.'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('INV001')).toBeInTheDocument();
+    expect(screen.getByText('Total')).toBeInTheDocument();
+  });
+});

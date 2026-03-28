@@ -1,1 +1,1 @@
-export * from './file-icon'
+export * from './file-icon';

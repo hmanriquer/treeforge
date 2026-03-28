@@ -1,15 +1,17 @@
-import * as React from "react"
-import { render, screen, fireEvent, waitFor } from "@testing-library/react"
-import { describe, it, expect } from "vitest"
+import * as React from 'react';
+
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+
 import {
   ContextMenu,
-  ContextMenuTrigger,
   ContextMenuContent,
   ContextMenuItem,
-} from "./context-menu"
+  ContextMenuTrigger,
+} from './context-menu';
 
-describe("ContextMenu component", () => {
-  it("opens the menu on right-click", async () => {
+describe('ContextMenu component', () => {
+  it('opens the menu on right-click', async () => {
     render(
       <ContextMenu>
         <ContextMenuTrigger>Right click here</ContextMenuTrigger>
@@ -17,15 +19,15 @@ describe("ContextMenu component", () => {
           <ContextMenuItem>Copy</ContextMenuItem>
           <ContextMenuItem>Paste</ContextMenuItem>
         </ContextMenuContent>
-      </ContextMenu>
-    )
+      </ContextMenu>,
+    );
 
-    const trigger = screen.getByText(/right click here/i)
-    fireEvent.contextMenu(trigger)
+    const trigger = screen.getByText(/right click here/i);
+    fireEvent.contextMenu(trigger);
 
     await waitFor(() => {
-      expect(screen.getByText(/copy/i)).toBeInTheDocument()
-      expect(screen.getByText(/paste/i)).toBeInTheDocument()
-    })
-  })
-})
+      expect(screen.getByText(/copy/i)).toBeInTheDocument();
+      expect(screen.getByText(/paste/i)).toBeInTheDocument();
+    });
+  });
+});

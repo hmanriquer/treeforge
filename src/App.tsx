@@ -1,7 +1,8 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useGitStore } from "./stores/git.store";
-import { WelcomePage } from "./pages/welcome";
-import { DashboardPage } from "./pages/dashboard";
+import { Navigate, Route, Routes } from 'react-router-dom';
+
+import { DashboardPage } from './pages/dashboard';
+import { WelcomePage } from './pages/welcome';
+import { useGitStore } from './stores/git.store';
 
 function RootGuard() {
   const savedRepos = useGitStore((s) => s.savedRepos);

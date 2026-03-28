@@ -1,0 +1,19 @@
+# Build artifacts
+dist/
+dist-ssr/
+src-tauri/target/
+
+# Modules
+node_modules/
+
+# OS files
+.DS_Store
+*.pem
+
+# Environment variables
+.env
+.env.*
+
+# Miscellaneous
+package-lock.json
+components.json

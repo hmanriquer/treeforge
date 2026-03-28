@@ -1,21 +1,23 @@
-import * as React from "react"
-import { render, screen, fireEvent, waitFor } from "@testing-library/react"
-import { describe, it, expect } from "vitest"
+import * as React from 'react';
+
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+
 import {
   Command,
-  CommandInput,
-  CommandList,
   CommandEmpty,
   CommandGroup,
+  CommandInput,
   CommandItem,
+  CommandList,
   CommandSeparator,
-} from "./command"
+} from './command';
 
 // Mock scrollIntoView which is called by cmdk but not implemented in jsdom
-window.HTMLElement.prototype.scrollIntoView = function() {}
+window.HTMLElement.prototype.scrollIntoView = function () {};
 
-describe("Command component", () => {
-  it("renders correctly with search and items", () => {
+describe('Command component', () => {
+  it('renders correctly with search and items', () => {
     render(
       <Command>
         <CommandInput placeholder="Search..." />
@@ -27,15 +29,15 @@ describe("Command component", () => {
             <CommandItem>Calculator</CommandItem>
           </CommandGroup>
         </CommandList>
-      </Command>
-    )
+      </Command>,
+    );
 
-    expect(screen.getByPlaceholderText(/search.../i)).toBeInTheDocument()
-    expect(screen.getByText(/calendar/i)).toBeInTheDocument()
-    expect(screen.getByText(/search emoji/i)).toBeInTheDocument()
-  })
+    expect(screen.getByPlaceholderText(/search.../i)).toBeInTheDocument();
+    expect(screen.getByText(/calendar/i)).toBeInTheDocument();
+    expect(screen.getByText(/search emoji/i)).toBeInTheDocument();
+  });
 
-  it("filters items when typing in input", async () => {
+  it('filters items when typing in input', async () => {
     render(
       <Command>
         <CommandInput placeholder="Search..." />
@@ -46,16 +48,16 @@ describe("Command component", () => {
             <CommandItem>Banana</CommandItem>
           </CommandGroup>
         </CommandList>
-      </Command>
-    )
+      </Command>,
+    );
 
-    const input = screen.getByPlaceholderText(/search.../i)
-    fireEvent.change(input, { target: { value: "Apple" } })
+    const input = screen.getByPlaceholderText(/search.../i);
+    fireEvent.change(input, { target: { value: 'Apple' } });
 
     // "Banana" should be hidden (not in the DOM or aria-hidden)
     await waitFor(() => {
-      expect(screen.getByText(/apple/i)).toBeVisible()
-      expect(screen.queryByText(/banana/i)).not.toBeInTheDocument()
-    })
-  })
-})
+      expect(screen.getByText(/apple/i)).toBeVisible();
+      expect(screen.queryByText(/banana/i)).not.toBeInTheDocument();
+    });
+  });
+});

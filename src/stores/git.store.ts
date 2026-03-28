@@ -1,6 +1,6 @@
-import { create } from "zustand";
-import { persist, devtools } from "zustand/middleware";
-import { invoke } from "@tauri-apps/api/core";
+import { invoke } from '@tauri-apps/api/core';
+import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
 
 // ==========================================
 // Types
@@ -16,12 +16,12 @@ export interface GitState {
   // Repository Management
   repoPath: string | null;
   savedRepos: string[];
-  
+
   // Repo Data
   branches: string[];
   commits: GitCommit[];
   status: string | null;
-  
+
   // App State
   isLoading: boolean;
   error: string | null;
@@ -41,7 +41,7 @@ export interface GitActions {
   push: () => Promise<void>;
   pull: () => Promise<void>;
   checkout: (branch: string) => Promise<void>;
-  
+
   // Utils
   clearError: () => void;
 }
@@ -55,14 +55,14 @@ const parseCommits = (rawLog: string): GitCommit[] => {
   if (!rawLog.trim()) return [];
   // Expected format from rust backend: %h|%s|%an|%ad
   return rawLog
-    .split("\n")
+    .split('\n')
     .map((line) => {
-      const parts = line.split("|");
+      const parts = line.split('|');
       return {
-        hash: parts[0] || "",
-        subject: parts[1] || "",
-        author: parts[2] || "",
-        date: parts[3] || "",
+        hash: parts[0] || '',
+        subject: parts[1] || '',
+        author: parts[2] || '',
+        date: parts[3] || '',
       };
     })
     .filter((c) => c.hash);
@@ -102,13 +102,20 @@ export const useGitStore = create<GitStore>()(
             const newRepos = state.savedRepos.filter((r) => r !== path);
             return {
               savedRepos: newRepos,
-              repoPath: state.repoPath === path ? newRepos[0] || null : state.repoPath,
+              repoPath:
+                state.repoPath === path ? newRepos[0] || null : state.repoPath,
             };
           });
         },
 
         selectRepo: (path: string) => {
-          set({ repoPath: path, error: null, branches: [], commits: [], status: null });
+          set({
+            repoPath: path,
+            error: null,
+            branches: [],
+            commits: [],
+            status: null,
+          });
           // Automatically fetch essential data on switch
           get().fetchBranches();
           get().fetchStatus();
@@ -124,11 +131,11 @@ export const useGitStore = create<GitStore>()(
 
           set({ isLoading: true, error: null });
           try {
-            const result = await invoke<string>("get_branches", { repoPath });
+            const result = await invoke<string>('get_branches', { repoPath });
             set({
               branches: result
-                .split("\n")
-                .map((b) => b.replace("*", "").trim())
+                .split('\n')
+                .map((b) => b.replace('*', '').trim())
                 .filter(Boolean),
             });
           } catch (e: any) {
@@ -144,7 +151,7 @@ export const useGitStore = create<GitStore>()(
 
           set({ isLoading: true, error: null });
           try {
-            const result = await invoke<string>("get_commit_log", { repoPath });
+            const result = await invoke<string>('get_commit_log', { repoPath });
             set({ commits: parseCommits(result) });
           } catch (e: any) {
             set({ error: e.toString() });
@@ -159,7 +166,7 @@ export const useGitStore = create<GitStore>()(
 
           set({ isLoading: true, error: null });
           try {
-            const result = await invoke<string>("get_status", { repoPath });
+            const result = await invoke<string>('get_status', { repoPath });
             set({ status: result });
           } catch (e: any) {
             set({ error: e.toString() });
@@ -174,7 +181,7 @@ export const useGitStore = create<GitStore>()(
 
           set({ isLoading: true, error: null });
           try {
-            await invoke<string>("git_commit", { repoPath, message });
+            await invoke<string>('git_commit', { repoPath, message });
             await get().fetchStatus();
             await get().fetchCommitLog();
           } catch (e: any) {
@@ -190,7 +197,7 @@ export const useGitStore = create<GitStore>()(
 
           set({ isLoading: true, error: null });
           try {
-            await invoke<string>("git_push", { repoPath });
+            await invoke<string>('git_push', { repoPath });
           } catch (e: any) {
             set({ error: e.toString() });
           } finally {
@@ -204,7 +211,7 @@ export const useGitStore = create<GitStore>()(
 
           set({ isLoading: true, error: null });
           try {
-            await invoke<string>("git_pull", { repoPath });
+            await invoke<string>('git_pull', { repoPath });
             await get().fetchCommitLog(); // refresh commits
             await get().fetchStatus();
           } catch (e: any) {
@@ -220,7 +227,7 @@ export const useGitStore = create<GitStore>()(
 
           set({ isLoading: true, error: null });
           try {
-            await invoke<string>("git_checkout", { repoPath, branch });
+            await invoke<string>('git_checkout', { repoPath, branch });
             await get().fetchBranches();
             await get().fetchStatus();
             await get().fetchCommitLog();
@@ -234,13 +241,13 @@ export const useGitStore = create<GitStore>()(
         clearError: () => set({ error: null }),
       }),
       {
-        name: "treeforge-git-storage",
+        name: 'treeforge-git-storage',
         // Only persist repo metadata
-        partialize: (state) => ({ 
+        partialize: (state) => ({
           savedRepos: state.savedRepos,
-          repoPath: state.repoPath
+          repoPath: state.repoPath,
         }),
-      }
-    )
-  )
+      },
+    ),
+  ),
 );

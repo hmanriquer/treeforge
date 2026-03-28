@@ -1,10 +1,19 @@
-import * as React from "react"
-import { render, screen, fireEvent, waitFor } from "@testing-library/react"
-import { describe, it, expect } from "vitest"
-import { Popover, PopoverTrigger, PopoverContent, PopoverHeader, PopoverTitle, PopoverDescription } from "./popover"
+import * as React from 'react';
 
-describe("Popover component", () => {
-  it("renders correctly and opens on click", async () => {
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from './popover';
+
+describe('Popover component', () => {
+  it('renders correctly and opens on click', async () => {
     render(
       <Popover>
         <PopoverTrigger>Toggle Popover</PopoverTrigger>
@@ -14,16 +23,16 @@ describe("Popover component", () => {
             <PopoverDescription>Desc</PopoverDescription>
           </PopoverHeader>
         </PopoverContent>
-      </Popover>
-    )
+      </Popover>,
+    );
 
-    expect(screen.queryByText("Title")).toBeNull()
+    expect(screen.queryByText('Title')).toBeNull();
 
-    fireEvent.click(screen.getByText("Toggle Popover"))
+    fireEvent.click(screen.getByText('Toggle Popover'));
 
     await waitFor(() => {
-      expect(screen.getByText("Title")).toBeInTheDocument()
-      expect(screen.getByText("Desc")).toBeInTheDocument()
-    })
-  })
-})
+      expect(screen.getByText('Title')).toBeInTheDocument();
+      expect(screen.getByText('Desc')).toBeInTheDocument();
+    });
+  });
+});

@@ -1,17 +1,19 @@
-import * as React from "react"
-import { render, screen, fireEvent, waitFor } from "@testing-library/react"
-import { describe, it, expect } from "vitest"
+import * as React from 'react';
+
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
-} from "./dialog"
+  DialogTrigger,
+} from './dialog';
 
-describe("Dialog component", () => {
-  it("opens the dialog when clicking the trigger", async () => {
+describe('Dialog component', () => {
+  it('opens the dialog when clicking the trigger', async () => {
     render(
       <Dialog>
         <DialogTrigger>Open Dialog</DialogTrigger>
@@ -21,14 +23,14 @@ describe("Dialog component", () => {
             <DialogDescription>Dialog Description</DialogDescription>
           </DialogHeader>
         </DialogContent>
-      </Dialog>
-    )
+      </Dialog>,
+    );
 
-    fireEvent.click(screen.getByText(/open dialog/i))
+    fireEvent.click(screen.getByText(/open dialog/i));
 
     await waitFor(() => {
-      expect(screen.getByText(/dialog title/i)).toBeInTheDocument()
-      expect(screen.getByText(/dialog description/i)).toBeInTheDocument()
-    })
-  })
-})
+      expect(screen.getByText(/dialog title/i)).toBeInTheDocument();
+      expect(screen.getByText(/dialog description/i)).toBeInTheDocument();
+    });
+  });
+});

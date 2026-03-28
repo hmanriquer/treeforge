@@ -1,30 +1,32 @@
-import * as React from "react"
-import { render, screen } from "@testing-library/react"
-import { describe, it, expect } from "vitest"
-import { Empty, EmptyTitle, EmptyDescription, EmptyMedia } from "./empty"
-import { Search } from "lucide-react"
+import * as React from 'react';
 
-describe("Empty component", () => {
-  it("renders correctly with full structure", () => {
+import { render, screen } from '@testing-library/react';
+import { Search } from 'lucide-react';
+import { describe, expect, it } from 'vitest';
+
+import { Empty, EmptyDescription, EmptyMedia, EmptyTitle } from './empty';
+
+describe('Empty component', () => {
+  it('renders correctly with full structure', () => {
     render(
       <Empty>
         <EmptyMedia>
-            <Search />
+          <Search />
         </EmptyMedia>
         <EmptyTitle>No results</EmptyTitle>
         <EmptyDescription>Try searching for something else.</EmptyDescription>
         <div>Clear search</div>
-      </Empty>
-    )
+      </Empty>,
+    );
 
-    expect(screen.getByText(/no results/i)).toBeInTheDocument()
-    expect(screen.getByText(/try searching/i)).toBeInTheDocument()
-    expect(screen.getByText(/clear search/i)).toBeInTheDocument()
-    expect(screen.queryByTestId("empty")).toBeNull() // Using built testing functions properly
-  })
-})
+    expect(screen.getByText(/no results/i)).toBeInTheDocument();
+    expect(screen.getByText(/try searching/i)).toBeInTheDocument();
+    expect(screen.getByText(/clear search/i)).toBeInTheDocument();
+    expect(screen.queryByTestId('empty')).toBeNull(); // Using built testing functions properly
+  });
+});
 
 // Quick helper
 const getByAttribute = (attr: string, value: string) => {
-    return document.querySelector(`[${attr}="${value}"]`)
-}
+  return document.querySelector(`[${attr}="${value}"]`);
+};

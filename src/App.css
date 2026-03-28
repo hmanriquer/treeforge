@@ -1,123 +1,129 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
-@import "@fontsource-variable/inter";
-@import "@fontsource-variable/space-grotesk";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/space-grotesk';
 
 @custom-variant dark (&:is(.dark *));
 
 /* The Precision Ledger - Design System Tokens */
 :root {
-    --background: #0e0e0e; /* Base Layer */
-    --foreground: #e7e5e5; /* on-surface */
-    --card: #131313; /* surface-container-low */
-    --card-foreground: #e7e5e5; 
-    --popover: #2b2c2c; /* surface-bright & glass */
-    --popover-foreground: #e7e5e5;
-    --primary: #c8c6c6; 
-    --primary-foreground: #404040; /* on-primary */
-    --secondary: #474747; /* primary-container */
-    --secondary-foreground: #c8c6c6; /* primary */
-    --muted: #252626; /* surface-variant */
-    --muted-foreground: #acabab; /* on-surface-variant */
-    --accent: #252626; /* Interactive hover container */
-    --accent-foreground: #e7e5e5;
-    --destructive: #ee7d77; /* red accent */
-    --destructive-foreground: #490106;
-    
-    /* Outlines and Rings */
-    --border: #474848; /* outline-variant (often with opacity in usage) */
-    --input: #474848; 
-    --ring: #757575; /* outline */
-    
-    /* Specific Custom Values from Design Spec */
-    --surface-lowest: #000000;
-    --surface-low: #131313;
-    --surface-high: #1f2020;
-    --surface-highest: #252626;
-    --tech-blue: #6ab2ff; /* added state */
-    --primary-dim: #bab8b8; /* modified state */
-    
-    --radius: 0.375rem; /* rounded-md */
+  --background: #0e0e0e; /* Base Layer */
+  --foreground: #e7e5e5; /* on-surface */
+  --card: #131313; /* surface-container-low */
+  --card-foreground: #e7e5e5;
+  --popover: #2b2c2c; /* surface-bright & glass */
+  --popover-foreground: #e7e5e5;
+  --primary: #c8c6c6;
+  --primary-foreground: #404040; /* on-primary */
+  --secondary: #474747; /* primary-container */
+  --secondary-foreground: #c8c6c6; /* primary */
+  --muted: #252626; /* surface-variant */
+  --muted-foreground: #acabab; /* on-surface-variant */
+  --accent: #252626; /* Interactive hover container */
+  --accent-foreground: #e7e5e5;
+  --destructive: #ee7d77; /* red accent */
+  --destructive-foreground: #490106;
 
-    --sidebar: #131313; 
-    --sidebar-foreground: #e7e5e5;
-    --sidebar-primary: #c8c6c6;
-    --sidebar-primary-foreground: #404040;
-    --sidebar-accent: #2b2c2c; /* surface-bright */
-    --sidebar-accent-foreground: #e7e5e5;
-    --sidebar-border: #474848;
-    --sidebar-ring: #757575;
+  /* Outlines and Rings */
+  --border: #474848; /* outline-variant (often with opacity in usage) */
+  --input: #474848;
+  --ring: #757575; /* outline */
+
+  /* Specific Custom Values from Design Spec */
+  --surface-lowest: #000000;
+  --surface-low: #131313;
+  --surface-high: #1f2020;
+  --surface-highest: #252626;
+  --tech-blue: #6ab2ff; /* added state */
+  --primary-dim: #bab8b8; /* modified state */
+
+  --radius: 0.375rem; /* rounded-md */
+
+  --sidebar: #131313;
+  --sidebar-foreground: #e7e5e5;
+  --sidebar-primary: #c8c6c6;
+  --sidebar-primary-foreground: #404040;
+  --sidebar-accent: #2b2c2c; /* surface-bright */
+  --sidebar-accent-foreground: #e7e5e5;
+  --sidebar-border: #474848;
+  --sidebar-ring: #757575;
 }
 
 /* Force everything to dark as per Creative North Star */
-.dark, :root {
-    color-scheme: dark;
+.dark,
+:root {
+  color-scheme: dark;
 }
 
 @theme inline {
-    --font-sans: 'Inter Variable', sans-serif;
-    --font-heading: 'Space Grotesk Variable', sans-serif;
-    --font-mono: 'JetBrains Mono Variable', monospace;
-    
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
-    --color-foreground: var(--foreground);
-    --color-background: var(--background);
-    
-    /* Design System Tonal Additions */
-    --color-surface-lowest: var(--surface-lowest);
-    --color-surface-low: var(--surface-low);
-    --color-surface-high: var(--surface-high);
-    --color-surface-highest: var(--surface-highest);
-    --color-tech-blue: var(--tech-blue);
-    --color-primary-dim: var(--primary-dim);
+  --font-sans: 'Inter Variable', sans-serif;
+  --font-heading: 'Space Grotesk Variable', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', monospace;
 
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8); /* Used for buttons */
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4); /* Used for large containers */
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+
+  /* Design System Tonal Additions */
+  --color-surface-lowest: var(--surface-lowest);
+  --color-surface-low: var(--surface-low);
+  --color-surface-high: var(--surface-high);
+  --color-surface-highest: var(--surface-highest);
+  --color-tech-blue: var(--tech-blue);
+  --color-primary-dim: var(--primary-dim);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8); /* Used for buttons */
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4); /* Used for large containers */
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
+  }
   body {
     @apply bg-background text-foreground antialiased;
-    }
+  }
   html {
     @apply font-sans;
-    }
-  
+  }
+
   /* Additional default typographic settings from Design System */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-heading tracking-tight;
   }
 }
