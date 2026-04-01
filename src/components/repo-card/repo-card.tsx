@@ -1,13 +1,22 @@
-import { AlertCircle, CheckCircle2, GitBranch, Network, RefreshCw } from 'lucide-react';
+import {
+  AlertCircle,
+  CheckCircle2,
+  GitBranch,
+  Network,
+  RefreshCw,
+} from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import { useGitStore } from '@/stores/git.store';
 
 import type { RepoCardProps } from './types';
 
 export function RepoCard({ name, path, branchName, status }: RepoCardProps) {
+  const selectRepo = useGitStore((s) => s.selectRepo);
+
   const statusConfig = {
     synced: {
       badgeText: 'Synced',
@@ -39,7 +48,10 @@ export function RepoCard({ name, path, branchName, status }: RepoCardProps) {
   const FooterIcon = currentStatus.footerIcon;
 
   return (
-    <Card className="group flex w-full max-w-sm flex-col gap-4 border-border bg-card p-5 shadow-sm transition-all hover:bg-accent/30">
+    <Card
+      onClick={() => selectRepo(path)}
+      className="group border-border bg-card hover:bg-accent/30 flex w-full max-w-sm cursor-pointer flex-col gap-4 p-5 shadow-sm transition-all"
+    >
       {/* Top Header Row */}
       <div className="flex items-start justify-between">
         <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-white/4 bg-[#24252a] text-[#86a8e7] shadow-inner transition-colors group-hover:bg-[#2b2d33]">
@@ -71,11 +83,9 @@ export function RepoCard({ name, path, branchName, status }: RepoCardProps) {
 
       {/* Bottom Footer Row */}
       <div className="flex items-center justify-between">
-        <div className="text-muted-foreground flex w-full items-center gap-2.5 truncate transition-colors group-hover:text-foreground/80">
+        <div className="text-muted-foreground group-hover:text-foreground/80 flex w-full items-center gap-2.5 truncate transition-colors">
           <GitBranch className="h-[15px] w-[15px] shrink-0" />
-          <span className="truncate font-mono text-[13px]">
-            {branchName}
-          </span>
+          <span className="truncate font-mono text-[13px]">{branchName}</span>
         </div>
         <div
           className={cn(

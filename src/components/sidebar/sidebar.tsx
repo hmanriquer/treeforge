@@ -1,31 +1,26 @@
-import {
-  FileText,
-  FolderGit2,
-  GitCompare,
-  HelpCircle,
-  History,
-  LayoutGrid,
-  Plus,
-  Settings,
-} from 'lucide-react';
+import { open } from '@tauri-apps/plugin-dialog';
+import { FileText, HelpCircle, Plus, Settings } from 'lucide-react';
+import { LuGitBranch } from 'react-icons/lu';
+import { PiGitBranch } from 'react-icons/pi';
+import { VscGitStash } from 'react-icons/vsc';
 
 import { cn } from '@/lib/utils';
+import { useGitStore } from '@/stores/git.store';
 
+import pkg from '../../../package.json';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import pkg from '../../../package.json';
 
 const navItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutGrid, isActive: true },
+  { id: 'commit-log', label: 'Commit Log', icon: LuGitBranch, isActive: true },
   {
-    id: 'repositories',
-    label: 'Repositories',
-    icon: FolderGit2,
+    id: 'stashes',
+    label: 'Stashes',
+    icon: VscGitStash,
     isActive: false,
   },
-  { id: 'history', label: 'History', icon: History, isActive: false },
-  { id: 'staging', label: 'Staging', icon: GitCompare, isActive: false },
-  { id: 'settings', label: 'Settings', icon: Settings, isActive: false },
+  { id: 'branches', label: 'Branches', icon: PiGitBranch, isActive: false },
+  { id: 'changes', label: 'Changes', icon: Settings, isActive: false },
 ];
 
 const footerItems = [
@@ -34,6 +29,28 @@ const footerItems = [
 ];
 
 export function Sidebar() {
+  const savedRepos = useGitStore((s) => s.savedRepos);
+  const addRepo = useGitStore((s) => s.addRepo);
+  const selectRepo = useGitStore((s) => s.selectRepo);
+
+  const handleAddLocalRepo = async () => {
+    try {
+      const directoryPath = await open({
+        directory: true,
+        multiple: false,
+        title: 'Select a Local Git Repository',
+      });
+      if (directoryPath) {
+        addRepo(directoryPath);
+        selectRepo(directoryPath);
+      }
+    } catch (e) {
+      console.error('Failed to open dialog', e);
+    }
+  };
+
+  const repoCount = savedRepos.length;
+
   return (
     <aside className="bg-sidebar flex h-full w-[260px] flex-col justify-between border-r border-neutral-900 py-6">
       <div className="flex flex-col gap-8 px-4">
@@ -63,10 +80,13 @@ export function Sidebar() {
           </div>
         </div>
 
-        {/* Action Button */}
-        <Button className="h-10 w-full justify-center gap-2 border-0 bg-linear-to-r from-blue-400 to-blue-600 font-medium text-white shadow-[0_0_20px_rgba(59,130,246,0.25)] transition-all duration-300 hover:from-blue-500 hover:to-blue-700">
+        {/* Add Repository Button */}
+        <Button
+          onClick={handleAddLocalRepo}
+          className="h-10 w-full justify-center gap-2 border-0 bg-linear-to-r from-blue-400 to-blue-600 font-medium text-white shadow-[0_0_20px_rgba(59,130,246,0.25)] transition-all duration-300 hover:from-blue-500 hover:to-blue-700"
+        >
           <Plus className="size-4" />
-          New Repository
+          {repoCount > 0 ? 'Add Repository' : 'New Repository'}
         </Button>
 
         {/* Navigation Top */}
