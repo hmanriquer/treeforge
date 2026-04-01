@@ -1,39 +1,42 @@
-import { useNavigate } from 'react-router-dom';
-
-import { FolderGit2 } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
-import { useGitStore } from '@/stores/git.store';
+import { BottomBar } from '@/components/bottom-bar';
+import { GitGraph } from '@/components/git-graph';
+import { RecentActivity } from '@/components/recent-activity';
+import { RepoTabs } from '@/components/repo-tabs';
+import { Sidebar } from '@/components/sidebar';
+import { Toolbar } from '@/components/toolbar';
 
 export function DashboardPage() {
-  const currentRepo = useGitStore((s) => s.repoPath);
-  const removeRepo = useGitStore((s) => s.removeRepo);
-  const navigate = useNavigate();
-
-  const handleForget = () => {
-    if (currentRepo) {
-      removeRepo(currentRepo);
-      // Let the ProtectedRoute auto-redirect if array becomes empty
-      navigate('/');
-    }
-  };
-
   return (
-    <div className="animate-in fade-in zoom-in-95 flex h-screen flex-col items-center justify-center space-y-6 bg-zinc-950 text-white duration-500 ease-out">
-      <div className="rounded-full bg-zinc-900 p-4 ring-1 ring-white/10">
-        <FolderGit2 className="h-8 w-8 text-zinc-400" />
-      </div>
+    <div className="bg-background flex h-full w-full flex-col overflow-hidden">
+      <div className="flex flex-1 overflow-hidden">
+        <Sidebar />
+        <div className="flex flex-1 flex-col overflow-hidden">
+          {/* Repository tab strip */}
+          <RepoTabs />
 
-      <div className="space-y-2 text-center">
-        <h2 className="text-2xl font-semibold">Active Repository</h2>
-        <p className="rounded-md bg-zinc-900 px-3 py-1.5 font-mono text-sm text-zinc-400 ring-1 ring-white/10">
-          {currentRepo}
-        </p>
-      </div>
+          {/* Main toolbar */}
+          <Toolbar />
 
-      <Button variant="destructive" onClick={handleForget}>
-        Forget Repository
-      </Button>
+          <div className="animate-in fade-in flex flex-1 flex-row overflow-hidden bg-zinc-950 duration-500">
+            {/* Main Content Area */}
+            <div className="flex flex-1 flex-col overflow-hidden p-6">
+              <div className="mb-6 flex w-full items-center justify-between">
+                <h2 className="text-2xl font-semibold tracking-tight text-white">
+                  Repository History
+                </h2>
+              </div>
+
+              <div className="relative min-h-0 flex-1 overflow-hidden">
+                <GitGraph />
+              </div>
+            </div>
+
+            {/* Right Panel */}
+            <RecentActivity />
+          </div>
+        </div>
+      </div>
+      <BottomBar />
     </div>
   );
 }

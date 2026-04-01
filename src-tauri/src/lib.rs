@@ -2,6 +2,22 @@
 use std::process::Command;
 
 #[tauri::command]
+fn get_current_branch(repo_path: &str) -> Result<String, String> {
+    let output = Command::new("git")
+        .current_dir(repo_path)
+        .arg("branch")
+        .arg("--show-current")
+        .output()
+        .map_err(|e| e.to_string())?;
+
+    if output.status.success() {
+        Ok(String::from_utf8_lossy(&output.stdout).to_string())
+    } else {
+        Err(String::from_utf8_lossy(&output.stderr).to_string())
+    }
+}
+
+#[tauri::command]
 fn get_branches(repo_path: &str) -> Result<String, String> {
     let output = Command::new("git")
         .current_dir(repo_path)
@@ -21,6 +37,21 @@ fn get_commit_log(repo_path: &str) -> Result<String, String> {
     let output = Command::new("git")
         .current_dir(repo_path)
         .args(["log", "--pretty=format:%h|%s|%an|%ad", "--date=short", "-n", "50"])
+        .output()
+        .map_err(|e| e.to_string())?;
+
+    if output.status.success() {
+        Ok(String::from_utf8_lossy(&output.stdout).to_string())
+    } else {
+        Err(String::from_utf8_lossy(&output.stderr).to_string())
+    }
+}
+
+#[tauri::command]
+fn get_commit_stats_log(repo_path: &str) -> Result<String, String> {
+    let output = Command::new("git")
+        .current_dir(repo_path)
+        .args(["log", "--numstat", "--format=COMMIT|%h|%an|%ar|%s", "-n", "20"])
         .output()
         .map_err(|e| e.to_string())?;
 
@@ -266,7 +297,9 @@ pub fn run() {
             git_config_set,
             git_reset,
             git_revert,
-            git_cherry_pick
+            git_cherry_pick,
+            get_current_branch,
+            get_commit_stats_log
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
