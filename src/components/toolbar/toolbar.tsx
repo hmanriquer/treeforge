@@ -1,8 +1,10 @@
 import { useState } from 'react';
+
 import { FaSync } from 'react-icons/fa';
 import { VscGitCommit } from 'react-icons/vsc';
 
 import { useGitStore } from '@/stores/git.store';
+
 import { SearchInput } from '../search-input';
 import { Button } from '../ui/button';
 import {
@@ -14,7 +16,7 @@ import {
   DialogTitle,
 } from '../ui/dialog';
 import { Input } from '../ui/input';
-import { toolbarActions, type ToolbarActionId } from './actions';
+import { type ToolbarActionId, toolbarActions } from './actions';
 
 // ─── Commit Dialog ────────────────────────────────────────────────────────────
 function CommitDialog({
@@ -37,7 +39,7 @@ function CommitDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-zinc-900 border-white/10 text-zinc-100">
+      <DialogContent className="border-white/10 bg-zinc-900 text-zinc-100">
         <DialogHeader>
           <DialogTitle>Commit Changes</DialogTitle>
           <DialogDescription className="text-zinc-400">
@@ -50,7 +52,7 @@ function CommitDialog({
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleCommit()}
-          className="bg-zinc-800 border-white/10 text-zinc-100 placeholder:text-zinc-500"
+          className="border-white/10 bg-zinc-800 text-zinc-100 placeholder:text-zinc-500"
         />
         <DialogFooter>
           <Button variant="ghost" onClick={() => onOpenChange(false)}>
@@ -90,7 +92,7 @@ function BranchDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-zinc-900 border-white/10 text-zinc-100">
+      <DialogContent className="border-white/10 bg-zinc-900 text-zinc-100">
         <DialogHeader>
           <DialogTitle>Create Branch</DialogTitle>
           <DialogDescription className="text-zinc-400">
@@ -103,7 +105,7 @@ function BranchDialog({
           value={name}
           onChange={(e) => setName(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleCreate()}
-          className="bg-zinc-800 border-white/10 text-zinc-100 placeholder:text-zinc-500"
+          className="border-white/10 bg-zinc-800 text-zinc-100 placeholder:text-zinc-500"
         />
         <DialogFooter>
           <Button variant="ghost" onClick={() => onOpenChange(false)}>
@@ -149,7 +151,7 @@ function StashDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-zinc-900 border-white/10 text-zinc-100">
+      <DialogContent className="border-white/10 bg-zinc-900 text-zinc-100">
         <DialogHeader>
           <DialogTitle>Stash Changes</DialogTitle>
           <DialogDescription className="text-zinc-400">
@@ -159,7 +161,7 @@ function StashDialog({
         </DialogHeader>
 
         {stashList.length > 0 && (
-          <div className="rounded-md bg-zinc-800/60 border border-white/5 p-3 text-xs text-zinc-400 font-mono space-y-1 max-h-32 overflow-y-auto">
+          <div className="max-h-32 space-y-1 overflow-y-auto rounded-md border border-white/5 bg-zinc-800/60 p-3 font-mono text-xs text-zinc-400">
             {stashList.map((entry, i) => (
               <div key={i}>{entry}</div>
             ))}
@@ -171,7 +173,7 @@ function StashDialog({
           placeholder="Optional stash message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="bg-zinc-800 border-white/10 text-zinc-100 placeholder:text-zinc-500"
+          className="border-white/10 bg-zinc-800 text-zinc-100 placeholder:text-zinc-500"
         />
 
         <DialogFooter className="gap-2">
@@ -201,7 +203,9 @@ function StashDialog({
 
 // ─── Toolbar ──────────────────────────────────────────────────────────────────
 export function Toolbar() {
-  const [openDialog, setOpenDialog] = useState<ToolbarActionId | 'commit' | null>(null);
+  const [openDialog, setOpenDialog] = useState<
+    ToolbarActionId | 'commit' | null
+  >(null);
   const [busyAction, setBusyAction] = useState<ToolbarActionId | null>(null);
   const isLoading = useGitStore((s) => s.isLoading);
   const sync = useGitStore((s) => s.sync);
@@ -269,7 +273,9 @@ export function Toolbar() {
               onClick={handleSync}
               className="h-8 font-medium"
             >
-              <FaSync className={`mr-1 size-3 ${isLoading ? 'animate-spin' : ''}`} />
+              <FaSync
+                className={`mr-1 size-3 ${isLoading ? 'animate-spin' : ''}`}
+              />
               Sync
             </Button>
             <Button

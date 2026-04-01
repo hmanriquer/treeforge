@@ -91,7 +91,7 @@ export function WelcomePage() {
   };
 
   return (
-    <main className="bg-background relative flex h-full w-full flex-col justify-center overflow-auto p-10 animate-in fade-in duration-500">
+    <main className="bg-background animate-in fade-in relative flex h-full w-full flex-col justify-center overflow-auto p-10 duration-500">
       <div className="mx-auto w-full max-w-5xl space-y-12 pb-20">
         <Header
           cloneRepository={() => console.warn('Not implemented yet')}
@@ -100,13 +100,15 @@ export function WelcomePage() {
         />
 
         {repos.length === 0 ? (
-          <div className="mt-8 animate-in slide-in-from-bottom-4 duration-700">
+          <div className="animate-in slide-in-from-bottom-4 mt-8 duration-700">
             <Empty className="mx-auto max-w-2xl border-dashed py-16">
               <EmptyHeader>
                 <EmptyMedia variant="icon" className="mb-4">
                   <FolderGit2 className="text-muted-foreground h-12 w-12" />
                 </EmptyMedia>
-                <EmptyTitle className="text-xl">No repositories found</EmptyTitle>
+                <EmptyTitle className="text-xl">
+                  No repositories found
+                </EmptyTitle>
               </EmptyHeader>
               <EmptyContent>
                 <EmptyDescription className="text-base">
@@ -117,9 +119,9 @@ export function WelcomePage() {
             </Empty>
           </div>
         ) : (
-          <div className="rounded-xl border bg-card/50 p-6 shadow-sm ring-1 ring-white/5 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-700">
+          <div className="bg-card/50 animate-in slide-in-from-bottom-4 rounded-xl border p-6 shadow-sm ring-1 ring-white/5 backdrop-blur-sm duration-700">
             <h2 className="mb-6 flex items-center gap-3 text-xl font-semibold tracking-tight">
-              <FolderGit2 className="h-6 w-6 text-muted-foreground" />
+              <FolderGit2 className="text-muted-foreground h-6 w-6" />
               Recent Repositories
             </h2>
             <ul

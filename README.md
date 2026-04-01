@@ -20,6 +20,7 @@ TreeForge is a modern desktop Git client designed to be fast, lightweight, and v
 ## Tech Stack
 
 ### Frontend
+
 - **Framework**: [React 19](https://react.dev/)
 - **Build Tool**: [Vite](https://vitejs.dev/)
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
@@ -28,10 +29,12 @@ TreeForge is a modern desktop Git client designed to be fast, lightweight, and v
 - **State Management**: [Zustand](https://zustand-demo.pmnd.rs/)
 
 ### Backend
+
 - **Core Engine**: [Rust](https://www.rust-lang.org/)
 - **Desktop Framework**: [Tauri v2](https://tauri.app/)
 
 ### Testing & Linting
+
 - **Unit Testing**: [Vitest](https://vitest.dev/) & React Testing Library
 - **Linting & Formatting**: ESLint + Prettier
 
@@ -40,6 +43,7 @@ TreeForge is a modern desktop Git client designed to be fast, lightweight, and v
 ### Prerequisites
 
 Before you begin, ensure you have the following installed:
+
 - [Node.js](https://nodejs.org/) (v18 or higher recommended)
 - [Rust](https://www.rust-lang.org/tools/install) (latest stable version)
 - Operating system native build dependencies required by Tauri (see [Tauri OS Setup Guide](https://tauri.app/v1/guides/getting-started/prerequisites)).
@@ -47,12 +51,14 @@ Before you begin, ensure you have the following installed:
 ### Installation
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/your-username/treeforge.git
    cd treeforge
    ```
 
 2. **Install frontend dependencies:**
+
    ```bash
    npm install
    ```

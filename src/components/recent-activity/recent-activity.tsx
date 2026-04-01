@@ -4,7 +4,7 @@ export function RecentActivity() {
   const recentActivities = useGitStore((state) => state.recentActivities);
 
   return (
-    <div className="flex w-96 flex-col bg-zinc-900 border-l border-white/10 overflow-y-auto">
+    <div className="flex w-96 flex-col overflow-y-auto border-l border-white/10 bg-zinc-900">
       <div className="px-6 py-6">
         <h3 className="mb-6 text-sm font-bold tracking-widest text-zinc-100">
           RECENT ACTIVITY
@@ -13,14 +13,14 @@ export function RecentActivity() {
           {recentActivities.map((activity) => (
             <div
               key={activity.hash}
-              className="group relative flex flex-col rounded-lg bg-zinc-950/50 border border-white/5 p-4 transition-colors hover:bg-zinc-800/80"
+              className="group relative flex flex-col rounded-lg border border-white/5 bg-zinc-950/50 p-4 transition-colors hover:bg-zinc-800/80"
             >
               {/* Header */}
               <div className="mb-3 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <img
                     src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
-                      activity.author
+                      activity.author,
                     )}&background=random&color=fff`}
                     alt={activity.author}
                     className="h-7 w-7 rounded-full object-cover shadow-sm"
@@ -35,7 +35,7 @@ export function RecentActivity() {
               </div>
 
               {/* Message */}
-              <p className="mb-4 text-sm text-zinc-300 leading-relaxed">
+              <p className="mb-4 text-sm leading-relaxed text-zinc-300">
                 {activity.message}
               </p>
 
@@ -52,9 +52,9 @@ export function RecentActivity() {
             </div>
           ))}
           {recentActivities.length === 0 && (
-             <div className="text-sm text-zinc-500 text-center py-6">
-               No recent activity found.
-             </div>
+            <div className="py-6 text-center text-sm text-zinc-500">
+              No recent activity found.
+            </div>
           )}
         </div>
       </div>

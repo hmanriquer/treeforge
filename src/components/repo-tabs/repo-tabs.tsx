@@ -68,7 +68,7 @@ export function RepoTabs() {
               title={path}
               onClick={() => handleSelect(path)}
               className={cn(
-                'group relative flex h-8 max-w-[180px] min-w-[100px] shrink-0 cursor-pointer select-none items-center gap-2 rounded-t-md border border-b-0 px-3 text-xs font-medium transition-colors',
+                'group relative flex h-8 max-w-[180px] min-w-[100px] shrink-0 cursor-pointer items-center gap-2 rounded-t-md border border-b-0 px-3 text-xs font-medium transition-colors select-none',
                 isActive
                   ? 'border-neutral-800 bg-zinc-900 text-zinc-100'
                   : 'border-transparent bg-transparent text-zinc-500 hover:bg-zinc-900/60 hover:text-zinc-300',
@@ -76,7 +76,7 @@ export function RepoTabs() {
             >
               {/* Active underline accent */}
               {isActive && (
-                <span className="bg-tech-blue absolute bottom-0 left-3 right-3 h-[2px] rounded-full" />
+                <span className="bg-tech-blue absolute right-3 bottom-0 left-3 h-[2px] rounded-full" />
               )}
 
               <FolderGit2 className="size-3 shrink-0" />

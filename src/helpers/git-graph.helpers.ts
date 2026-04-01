@@ -1,6 +1,7 @@
+import { MOCHA } from '@/components/git-graph-row/constants';
 import { GitCommit } from '@/stores/git.store';
 
-export interface GraphNode {
+export type GraphNode = {
   commit: GitCommit;
   column: number;
   colorIndex: number;
@@ -8,12 +9,21 @@ export interface GraphNode {
   incomingBranches: (string | null)[];
   // Routes going out to the next row
   outgoingBranches: (string | null)[];
-}
+};
 
-export function computeGraph(commits: GitCommit[]): {
+type ParseRefOutput = {
+  label: string;
+  bg: string;
+  fg: string;
+  border: string;
+};
+
+export type ComputeGraphOutput = {
   nodes: GraphNode[];
   colorMap: Map<string, number>;
-} {
+};
+
+export function computeGraph(commits: GitCommit[]): ComputeGraphOutput {
   const branches: (string | null)[] = [];
   let nextColor = 0;
   const colors = new Map<string, number>();
@@ -97,4 +107,34 @@ export function computeGraph(commits: GitCommit[]): {
     }),
     colorMap: colors,
   };
+}
+
+export function parseRef(raw: string): ParseRefOutput {
+  const r = raw.trim().replace(/[()]/g, '');
+
+  if (r === 'HEAD') {
+    return { label: 'HEAD', bg: '#45475a', fg: '#cba6f7', border: '#cba6f7' };
+  }
+  if (r.startsWith('HEAD -> ')) {
+    const branch = r.replace('HEAD -> ', '');
+    return { label: branch, bg: '#1e1e2e', fg: '#89b4fa', border: '#89b4fa' };
+  }
+  if (r.startsWith('tag: ')) {
+    const tag = r.replace('tag: ', '');
+    return {
+      label: `🏷 ${tag}`,
+      bg: '#1e1e2e',
+      fg: '#f9e2af',
+      border: '#f9e2af',
+    };
+  }
+  if (r.startsWith('origin/')) {
+    return { label: r, bg: '#1e1e2e', fg: '#a6e3a1', border: '#a6e3a1' };
+  }
+  // Local branch
+  return { label: r, bg: '#313244', fg: '#b4befe', border: '#585b70' };
+}
+
+export function getColor(index: number): string {
+  return MOCHA.accents[index % MOCHA.accents.length];
 }

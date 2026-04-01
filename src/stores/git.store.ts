@@ -96,43 +96,43 @@ const parseCommits = (rawLog: string): GitCommit[] => {
 
 const parseRecentActivities = (rawLog: string): RecentActivityInfo[] => {
   if (!rawLog.trim()) return [];
-  
+
   const activities: RecentActivityInfo[] = [];
   const blocks = rawLog.split('COMMIT|').filter(Boolean);
-  
+
   for (const block of blocks) {
     const lines = block.split('\n');
     if (lines.length === 0) continue;
-    
+
     const headerParts = lines[0].split('|');
     const hash = headerParts[0] ? headerParts[0].trim() : '';
     const author = headerParts[1] ? headerParts[1].trim() : '';
     const timeAgo = headerParts[2] ? headerParts[2].trim() : '';
     const message = headerParts[3] ? headerParts[3].trim() : '';
-    
+
     let adds = 0;
     let dels = 0;
-    
+
     for (let i = 1; i < lines.length; i++) {
-       const line = lines[i].trim();
-       if (!line) continue;
-       const statParts = line.split(/\s+/);
-       if (statParts.length >= 2) {
-          if (statParts[0] !== '-') adds += parseInt(statParts[0], 10) || 0;
-          if (statParts[1] !== '-') dels += parseInt(statParts[1], 10) || 0;
-       }
+      const line = lines[i].trim();
+      if (!line) continue;
+      const statParts = line.split(/\s+/);
+      if (statParts.length >= 2) {
+        if (statParts[0] !== '-') adds += parseInt(statParts[0], 10) || 0;
+        if (statParts[1] !== '-') dels += parseInt(statParts[1], 10) || 0;
+      }
     }
-    
+
     activities.push({
       hash: `#${hash}`,
       author,
       timeAgo,
       message,
       additions: `+${adds}`,
-      deletions: `-${dels}`
+      deletions: `-${dels}`,
     });
   }
-  
+
   return activities;
 };
 
@@ -192,15 +192,15 @@ export const useGitStore = create<GitStore>()(
             status: null,
             currentBranch: null,
           });
-          
+
           await get().fetchBranches();
           await get().fetchCurrentBranch();
-          
+
           const { currentBranch, branches, lastUsedBranches } = get();
           const lastUsed = lastUsedBranches[path];
 
           let branchToSelect = lastUsed;
-          
+
           if (!branchToSelect || !branches.includes(branchToSelect)) {
             if (branches.includes('main')) {
               branchToSelect = 'main';
@@ -216,12 +216,12 @@ export const useGitStore = create<GitStore>()(
           } else {
             // If already on the right branch or no branches exist
             if (branchToSelect) {
-                set((state) => ({
-                   lastUsedBranches: {
-                     ...state.lastUsedBranches,
-                     [path]: branchToSelect,
-                   }
-                }));
+              set((state) => ({
+                lastUsedBranches: {
+                  ...state.lastUsedBranches,
+                  [path]: branchToSelect,
+                },
+              }));
             }
             await get().fetchStatus();
             await get().fetchCommitLog();
@@ -290,7 +290,9 @@ export const useGitStore = create<GitStore>()(
 
           set({ isLoading: true, error: null });
           try {
-            const result = await invoke<string>('get_commit_stats_log', { repoPath });
+            const result = await invoke<string>('get_commit_stats_log', {
+              repoPath,
+            });
             set({ recentActivities: parseRecentActivities(result) });
           } catch (e: any) {
             set({ error: e.toString() });
@@ -369,7 +371,7 @@ export const useGitStore = create<GitStore>()(
           set({ isLoading: true, error: null });
           try {
             await invoke<string>('git_checkout', { repoPath, branch });
-            
+
             set((state) => ({
               lastUsedBranches: {
                 ...state.lastUsedBranches,
@@ -452,7 +454,10 @@ export const useGitStore = create<GitStore>()(
           if (!repoPath) return;
           set({ isLoading: true, error: null });
           try {
-            await invoke<string>('git_checkout_new_branch', { repoPath, branch: name });
+            await invoke<string>('git_checkout_new_branch', {
+              repoPath,
+              branch: name,
+            });
             set((state) => ({
               currentBranch: name,
               lastUsedBranches: { ...state.lastUsedBranches, [repoPath]: name },
